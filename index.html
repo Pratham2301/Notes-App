@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Keep Notes</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="main-div">
+        <h1 id="heading">Keep Your Notes</h1>
+
+        <div class="addNote">
+            <input type="text" id="input-title" placeholder="Title">
+            <textarea name="input-text" id="input-text" cols="30" rows="10" placeholder="Take a Note.."></textarea>
+            <button id="add-btn">Add</button>
+        </div>
+
+        <div id="showNotes">
+            <div id="note1">
+                <div id="show-title">Title demo</div>
+                <div id="show-text">Text demo</div>
+                <button id="delete-btn">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./logic.js"></script>
+
+</body>
+
+</html>
