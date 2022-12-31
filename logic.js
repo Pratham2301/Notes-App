@@ -6,12 +6,24 @@ const addBtn = document.getElementById('add-btn');
 const displaynotes = document.getElementById('showNotes');
 
 
-showAllNotes();
+settingLocalStorage();
 
-
+// localStorage.setItem('notes', "");
 // console.log(title);
 // console.log(text);
 // console.log(addBtn);
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+function settingLocalStorage() {
+
+    if(localStorage.getItem('notes') == null){
+        console.log("setting up local storage......")
+        localStorage.setItem('notes', "");
+    }
+
+
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -35,59 +47,62 @@ function addNoteonClick() {
         Text: text.value
     }
 
-    let prevNotes = localStorage.getItem('notes');
+    let prevSavedNotes = localStorage.getItem('notes');
 
-    let notesArray = []
+    let prevSavedNotesArray = []
 
-    if(prevNotes.length!=0)
+    if(prevSavedNotes.length!=0)
     {
-        notesArray = JSON.parse(prevNotes);
+        prevSavedNotesArray = JSON.parse(prevSavedNotes);
     }
 
-    notesArray.push(noteObj);
+    prevSavedNotesArray.push(noteObj);
 
-    let notesString = JSON.stringify(notesArray);
+    let updatedSavedNotes = JSON.stringify(prevSavedNotesArray);
 
-    localStorage.setItem('notes', notesString);
+    localStorage.setItem('notes', updatedSavedNotes);
 
     showAllNotes();
 
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////
+
 function showAllNotes() {
 
-    let prevNotes = localStorage.getItem('notes');
+    let prevSavedNotes_LS = localStorage.getItem('notes');
 
-    console.log("local storage Length : - ", prevNotes.length);
+    // console.log("local storage Length : - ", prevSavedNotes_LS.length);
 
-    if(prevNotes.length==0)
+    if(prevSavedNotes_LS.length==0)
     {
         displaynotes.style.display = "none";
         return;
     }
 
-    console.log("local storage : - ", prevNotes);
+    // console.log("local storage : - ", prevSavedNotes_LS);
 
-    let noteArray = [];
+    let prevSavedNotes_LS_Array = [];
 
-    noteArray = JSON.parse(prevNotes);
+    prevSavedNotes_LS_Array = JSON.parse(prevSavedNotes_LS);
 
-    console.log("local storage : - ", prevNotes);
+    // console.log("local storage : - ", prevSavedNotes_LS);
 
     let str = "";
-    for (let i = 0; i < noteArray.length; i++) {
-        // console.log(noteArray[i].Title);
-        // console.log(noteArray[i].Text);
+    
+    for (let i = 0; i < prevSavedNotes_LS_Array.length; i++) {
+        // console.log(prevSavedNotes_LS_Array[i].Title);
+        // console.log(prevSavedNotes_LS_Array[i].Text);
 
         str += `<div id="note1">
-                    <div id="show-title">${noteArray[i].Title}</div>
-                    <div id="show-text">${noteArray[i].Text}</div>
-                    <button id="delete-btn-${i}">Delete</button>
+                    <div id="show-title">${prevSavedNotes_LS_Array[i].Title}</div>
+                    <div id="show-text">${prevSavedNotes_LS_Array[i].Text}</div>
+                    <button id="delete-btn-${i}" onclick="deleteNoteonClick(${i})"> Delete </button>
                 </div>
         `;
     }
 
-    if (noteArray.length > 0) {
+    if (prevSavedNotes_LS_Array.length > 0) {
         displaynotes.style.display = "flex";
     }
 
@@ -97,9 +112,40 @@ function showAllNotes() {
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
+function deleteNoteonClick(index){
 
+    console.log("delete click working --> index : ", index );
+
+    prevSavedNotesLS = localStorage.getItem('notes');
+
+    prevSavedNotesArray = JSON.parse(prevSavedNotesLS);
+
+    updatedArray = []
+
+    n = prevSavedNotesArray.length;
+
+    for(let i=0;i<n;i++)
+    {
+        if(i!=index)
+        {
+            updatedArray.push(prevSavedNotesArray[i]);
+        }
+    }
+
+    updatedNotesString = JSON.stringify(updatedArray);
+
+    localStorage.setItem('notes', updatedNotesString);
+
+    showAllNotes();
+
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////
 
 addBtn.addEventListener('click', addNoteonClick);
+
+showAllNotes();
+
 
 
 
